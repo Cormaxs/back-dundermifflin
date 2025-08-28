@@ -56,16 +56,6 @@ export const search = async (query, page, limit) => {
       }
     };
 
-    // Si el query es un número, añadir búsqueda por año
-    const numericQuery = parseInt(query);
-    if (!isNaN(numericQuery)) {
-      searchConditions = {
-        $or: [
-          searchConditions,
-          { year: numericQuery }
-        ]
-      };
-    }
 
     // Ejecutar consultas en paralelo
     const [books, totalCount] = await Promise.all([

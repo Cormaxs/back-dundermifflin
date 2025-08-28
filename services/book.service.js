@@ -11,7 +11,6 @@ export const findBookById = async (id) => {
 
 export const createBook = async (bookData) => {
   try {
-      bookData.year = parseInt(bookData.year);
     return await bookRepository.create(bookData);
 
   } catch (error) {

@@ -3,18 +3,19 @@ import mongoose from 'mongoose';
 
 // Define el esquema para el libro
 const bookSchema = new mongoose.Schema({
-    // Título del libro, es un campo requerido
+    // Título del libro, es un campo requerido y debe ser único
     titulo: {
         type: String,
         required: true,
+        unique: true,
         trim: true
     },
     // URL de la portada, requerida
     portada: {
         type: String,
-        required: true
+        required: false
     },
-    // Sinopsis del libro, requerida y con un mínimo de 10 caracteres
+    // Sinopsis del libro
     sinopsis: {
         type: String,
         required: false,
@@ -24,13 +25,13 @@ const bookSchema = new mongoose.Schema({
     // Autor del libro, requerido
     autor: {
         type: String,
-        required: true,
-        trim: true
+        required: false,
+        trim: false
     },
     // Categorías del libro, un array de strings
     categorias: {
         type: [String],
-        required: true,
+        required: false,
         default: []
     },
     // Enlace de descarga, requerido
@@ -38,22 +39,30 @@ const bookSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    year: {
-        type: Number,
-        required: true,
-      },
+    // Tipo de archivo (ej. 'PDF', 'EPUB', 'MOBI'), requerido
+    fileType: {
+        type: String,
+        required: false,
+        trim: false
+    },
+    // Referencia al ID del usuario que creó el libro, requerido
+    creator: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'UserDundderMifflin', // Referencia al modelo User
+        required: false
+    }
 }, {
     // Añade automáticamente campos para la fecha de creación y actualización
     timestamps: true
 });
-// ÍNDICES PARA OPTIMIZAR BÚSQUEDAS
-bookSchema.index({ titulo: 'text', autor: 'text', categorias: 'text' }); // Índice de texto compuesto
-bookSchema.index({ titulo: 1 }); // Índice ascendente para título
-bookSchema.index({ autor: 1 }); // Índice ascendente para autor  
-bookSchema.index({ categorias: 1 }); // Índice para categorías (array)
-bookSchema.index({ year: 1 }); // Índice para año
-bookSchema.index({ titulo: 1, autor: 1 }); // Índice compuesto para búsquedas combinadas
 
+// Índices para optimizar búsquedas
+// Se elimina el índice para 'year' y se añaden los nuevos campos
+bookSchema.index({ titulo: 'text', autor: 'text', categorias: 'text' });
+bookSchema.index({ autor: 1 });
+bookSchema.index({ categorias: 1 });
+bookSchema.index({ creator: 1 }); // Índice para el creador
+bookSchema.index({ fileType: 1 }); // Índice para el tipo de archivo
 
 // Crea el modelo 'Book' a partir del esquema
 const Book = mongoose.model('BookDundderMifflin', bookSchema);

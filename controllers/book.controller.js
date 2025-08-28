@@ -38,7 +38,7 @@ export const findOne = async (req, res) => {
 
 export const create = async (req, res) => {
   try {
-    console.log(req.body);
+    //console.log(req.body);
     const newBook = await bookService.createBook(req.body);
     res.status(201).json({success: true,
       user: newBook});
@@ -49,7 +49,7 @@ export const create = async (req, res) => {
 
 export const update = async (req, res) => {
   try {
-    console.log(req.body)
+    //console.log(req.body)
     const updatedBook = await bookService.updateBook(req.params.idBook, req.body);
     if (!updatedBook) {
       return res.status(404).json({ message: "Libro no encontrado" });
