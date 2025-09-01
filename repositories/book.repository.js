@@ -25,7 +25,7 @@ export const findAll = async (page, limit) => {
 };
 
 export const findById = async (id) => {
-  return await Book.findById(id);
+  return await Book.findById(id).lean();
 };
 
 export const create = async (bookData) => {
@@ -47,22 +47,21 @@ export const search = async (query, page, limit) => {
   try {
     const skip = (page - 1) * limit;
 
-    // USAR BÚSQUEDA DE TEXTO NATIVA DE MONGODB (MÁS RÁPIDO)
     let searchConditions = {
       $text: {
         $search: query,
         $caseSensitive: false,
-        $diacriticSensitive: false // ← ESTO IGNORA TILDES AUTOMÁTICAMENTE
+        $diacriticSensitive: false
       }
     };
 
-
-    // Ejecutar consultas en paralelo
     const [books, totalCount] = await Promise.all([
+      // Apply .lean() here to return plain JavaScript objects
       Book.find(searchConditions)
         .skip(skip)
         .limit(parseInt(limit))
-        .sort({ score: { $meta: "textScore" } }) // Ordenar por relevancia
+        .sort({ score: { $meta: "textScore" } })
+        .lean() // <--- This is the key change
         .exec(),
       Book.countDocuments(searchConditions)
     ]);

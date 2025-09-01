@@ -76,8 +76,7 @@ export const remove = async (req, res) => {
 
 export const searchBooks = async (req, res) => {
   try {
-    console.log("entro a search")
-    console.log(req.query);
+    
     const { q, page = 1, limit = 10 } = req.query;
 
     if (!q) {
