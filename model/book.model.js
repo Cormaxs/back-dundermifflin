@@ -1,4 +1,3 @@
-// models/book.model.js
 import mongoose from 'mongoose';
 
 // Define el esquema para el libro
@@ -48,8 +47,19 @@ const bookSchema = new mongoose.Schema({
     // Referencia al ID del usuario que creó el libro, requerido
     creator: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'UserDundderMifflin', // Referencia al modelo User
+        ref: 'UserDundderMifflin',
         required: false
+    },
+    // Campos para el sistema de calificación
+    averageRating: {
+        type: Number,
+        default: 0,
+        required: true
+    },
+    totalRatingsCount: {
+        type: Number,
+        default: 0,
+        required: true
     }
 }, {
     // Añade automáticamente campos para la fecha de creación y actualización
@@ -57,7 +67,6 @@ const bookSchema = new mongoose.Schema({
 });
 
 // Índices para optimizar búsquedas
-// Se elimina el índice para 'year' y se añaden los nuevos campos
 bookSchema.index({ titulo: 'text', autor: 'text', categorias: 'text' });
 bookSchema.index({ autor: 1 });
 bookSchema.index({ categorias: 1 });

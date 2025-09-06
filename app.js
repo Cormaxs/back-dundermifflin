@@ -3,7 +3,7 @@ import { connectToDatabase } from "./db/db-connect.js";
 import cors from "cors";
 import { users } from "./routes/users.js";
 import {books} from "./routes/libros.js";
-
+import {Rating} from "./routes/rating.js";
 const app = Express();
 const PORT = process.env.PORT || 3000;
 let db;
@@ -14,6 +14,7 @@ app.use(cors()); // 2. Usa cors como un middleware. Esto permite todas las petic
 
 app.use("/users", users);
 app.use("/books", books);
+app.use("/rating", Rating);
 
 // Conectar a la base de datos antes de iniciar el servidor
 connectToDatabase()
