@@ -1,5 +1,5 @@
 // repositories/book.repository.js
-import Book from "../model/Book.model.js";
+import Book from "../model/book.model.js";
 
 /**
  * Busca todos los libros con paginación.
