@@ -12,7 +12,7 @@ export const findAll = async (req, res) => {
     // Enviar los libros y metadatos de paginación en la respuesta
     res.status(200).json({
       data: books,
-      meta: {
+      metadata: {
         page,
         limit,
         totalCount,
@@ -26,13 +26,17 @@ export const findAll = async (req, res) => {
 
 export const findOne = async (req, res) => {
   try {
-    const book = await bookService.findBookById(req.params.idBook);
-    if (!book) {
-      return res.status(404).json({ message: "Libro no encontrado" });
-    }
-    res.status(200).json(book);
+      // req.params.idBook ahora contiene el slug completo (ej: el-padrino-id)
+      const idBook = req.params.idBook; 
+      const book = await bookService.findBookById(idBook);
+        console.log("respuesta -> ", book)
+      if (!book) {
+          // Si el libro no se encuentra con el ID extraído
+          return res.status(404).json({ message: "Libro no encontrado" });
+      }
+      res.status(200).json(book);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+      res.status(500).json({ message: error.message });
   }
 };
 

@@ -5,8 +5,12 @@ export const findAllBooks = async (page, limit) => {
   return await bookRepository.findAll(page, limit);
 };
 
-export const findBookById = async (id) => {
-  return await bookRepository.findById(id);
+export const findBookById = async (slugOrId) => {
+  // Llama a la nueva función que puede manejar la extracción del ID del slug.
+  //console.log("Servicio - findBookById llamado con:", slugOrId);
+  const res = await bookRepository.findBySlugOrId(slugOrId);
+  //console.log("Servicio - Resultado de la búsqueda:", res);
+  return res;
 };
 
 export const createBook = async (bookData) => {
@@ -30,3 +34,5 @@ export const deleteBook = async (id) => {
 export const searchBooksService = async (query, page, limit) => {
   return await bookRepository.search(query, page, limit);
 };
+
+

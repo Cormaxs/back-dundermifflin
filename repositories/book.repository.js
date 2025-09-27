@@ -130,3 +130,51 @@ export const findBookById = async (bookId) => {
 export const updateBookRatingMetrics = async (book) => {
     await book.save();
 };
+
+
+
+const extractIdFromSlug = (slug) => {
+    // Intentamos extraer el ID de 24 caracteres al final del slug
+    const parts = slug.split('-');
+   
+    const potentialId = parts[parts.length - 1];
+  
+    return potentialId;
+};
+
+
+
+export const findBySlugOrId = async (slugOrId) => {
+    // ⭐️ Nuevo paso: Extraer el ID único del slug completo.
+    // Asumimos que extractIdFromSlug devuelve el ID o null.
+    const bookId = extractIdFromSlug(slugOrId);
+    //console.log("ID extraído para búsqueda:", bookId);
+
+    // ⭐️ CORRECCIÓN: Validar que bookId exista (no sea null) Y que sea un ObjectId válido.
+    if (bookId) {
+       // console.log("Iniciando búsqueda en la base de datos por ID:", bookId);
+        // ✅ Ahora sí, esperamos la respuesta de la base de datos
+        const libro = await Book.findById(bookId);
+        return libro;
+    }
+
+    // Si bookId era null, o no era válido, o la búsqueda anterior falló, retorna null.
+    //console.log("Búsqueda no iniciada: ID no válido o nulo.");
+    return null;
+};
+
+// Tu función original findById se mantiene para usos internos si es necesario, pero la reemplazaremos en el Service
+// export const findById = async (id) => {
+//     return await Book.findById(id).lean();
+// };
+
+// ⭐️ Tienes dos funciones findBookById en el repositorio, consolidamos findById para usar el slug.
+
+/**
+ * Busca un libro por su ID (versión para mongoose document).
+ * @param {string} bookId - El ID del libro.
+ * @returns {Promise<object>} El documento del libro.
+ */
+export const findBookByIdDocument = async (bookId) => {
+    return await Book.findById(bookId);
+};
