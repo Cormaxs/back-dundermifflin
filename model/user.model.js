@@ -31,6 +31,21 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ['admin', 'user'], // Solo permite estos valores
         default: 'user'
+    },
+    // --- NUEVOS CAMPOS PARA SUSCRIPCIÓN ---
+    isSubscribed: {
+        type: Boolean,
+        default: false
+    },
+    creemCustomerId: {
+        type: String, // ID del cliente en la plataforma de pagos
+        unique: true,
+        sparse: true // Permite que sea null hasta que se registre en Creem
+    },
+    subscriptionStatus: {
+        type: String,
+        enum: ['active', 'past_due', 'canceled', 'none'],
+        default: 'none'
     }
 }, {
     // Agrega campos de fecha de creación y actualización

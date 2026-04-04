@@ -9,3 +9,5 @@ users.post("/login", login);
 users.post("/update/:idUser", update);
 
 users.delete("/delete/idUser", remove);
+
+

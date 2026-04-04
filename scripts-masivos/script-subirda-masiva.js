@@ -263,7 +263,20 @@ const API_ENDPOINT = 'http://localhost:3000/books/';
 const USER_ID = '68af7730a043f5bcd5cae2e5';
 
 // Datos de los documentos a subir. Puedes agregar más líneas.
-const bookDataString = ``;
+const bookDataString = `Más que rivales - Rachel Reid .epub https://drive.google.com/file/d/1f-d_Pr3aKU6UibYfJQFHV3AVjWpGcFkg/view?usp=drivesdk
+5 Role Model - Rachel Reid ESPAÑOL.epub https://drive.google.com/file/d/1_L1tycfg4nfKT1c6MqIre8LWLh46VKBT/view?usp=drivesdk
+6 The Long Game - Rachel Reid INGLES.epub https://drive.google.com/file/d/1GMknujvP4EnGnPTSzPFQQkV61qXISCGg/view?usp=drivesdk
+1.5 Merry Christmas Scott & Kip - Rachel Reid ESPAÑOL.epub https://drive.google.com/file/d/13VfaQLGMdP0YL1u0Yu6BKtarZMLrqIhP/view?usp=drivesdk
+1 Game Changer - Rachel Reid ESPAÑOL.epub https://drive.google.com/file/d/17D3JrmBe1PdtbvYWWM9ZaEuk3-IR_lQI/view?usp=drivesdk
+5 Role Model - Rachel Reid INGLES.epub https://drive.google.com/file/d/19guPQ-jCZcji99ORv7bzLPyXVMRZ3XgT/view?usp=drivesdk
+3 Tough Guy - Rachel Reid ESPAÑOL.epub https://drive.google.com/file/d/14J2cMf0ylMDTpGkJYTF9kAUgg7_3AmyS/view?usp=drivesdk
+3 Tough Guy - Rachel Reid INGLES.epub https://drive.google.com/file/d/1h-nlQsFn8ckbkAepOpYQE6O2-1EqWpWk/view?usp=drivesdk
+4 Common Goal - Rachel Reid ESPAÑOL.epub https://drive.google.com/file/d/1sKWHdvKklc6O1F-uTeJwexgHqq_fBMKt/view?usp=drivesdk
+2.6 Halloween with Ilya - Rachel Reid ESPAÑOL.epub https://drive.google.com/file/d/10TWSljUoQ0J6HjyabPGysNfz5O0xexkN/view?usp=drivesdk
+2 Heated Rivalry - Rachel Reid ESPAÑOL.epub https://drive.google.com/file/d/16fs74nklRfGn8CPi3ki59jr8Fk-E6Zts/view?usp=drivesdk
+2 Heated Rivalry - Rachel Reid INGLES.epub https://drive.google.com/file/d/1sbIIW8OWddb5ZY1idvZQ85q4y1SPeK-o/view?usp=drivesdk
+6 The Long Game - Rachel Reid ESPAÑOL.epub https://drive.google.com/file/d/1WZQQPwp1qHvlYytx7l5aZ_Ylo1HXqnO7/view?usp=drivesdk
+1 Game Changer - Rachel Reid INGLES.epub https://drive.google.com/file/d/1HHUggpU8KdDv6QxKUC4TOAxPTeEkrVnW/view?usp=drivesdk`;
 
 // Llamar a la función principal para iniciar el proceso de carga
 uploadBooksAndComics(API_ENDPOINT, USER_ID, bookDataString);

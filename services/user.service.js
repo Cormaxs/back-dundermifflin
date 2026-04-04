@@ -3,9 +3,13 @@ import {
     findUserByUsername,
     findUserByIdAndUpdate,
     findUserByIdAndRemove,
+    findUserByEmailAndUpdate
   } from "../repositories/user.repository.js";
   import { hashPassword, comparePassword, generateToken } from "../utils/auth.utils.js";
-  
+  import { updateSubscriptionData } from "../repositories/user.repository.js";
+
+
+
   export const registerUser = async (userData) => {
     const { password } = userData;
     const hashedPassword = await hashPassword(password);
@@ -42,3 +46,18 @@ import {
     }
     return deletedUser;
   };
+
+
+
+  //suscripcion
+  export const processSubscriptionUpdate = async (email, creemData) => {
+    // Aquí el servicio solo se encarga de llamar al repositorio 
+    // que maneja la persistencia de ambos modelos.
+    const result = await updateSubscriptionData(email, creemData);
+    
+    if (!result) {
+        throw new Error("No se pudo procesar la suscripción para: " + email);
+    }
+    
+    return result;
+};
