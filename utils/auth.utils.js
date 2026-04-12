@@ -16,9 +16,13 @@ export const comparePassword = async (password, hashedPassword) => {
 
 // Generación de JWT (JSON Web Token)
 export const generateToken = (user) => {
+  
   const payload = {
     id: user._id,
     role: user.role,
+    plan: user.planType, // 'free', 'lector' o 'erudito'
+    isSubscribed: user.isSubscribed, // true o false
+    username: user.username, // Útil para mostrar "Hola, Thomas" en el header
   };
   return jwt.sign(payload, secretKey, { expiresIn: "24h" });
 };

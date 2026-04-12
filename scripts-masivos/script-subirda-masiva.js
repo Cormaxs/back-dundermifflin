@@ -258,25 +258,53 @@ async function uploadBooksAndComics(endpoint, userId, dataString) {
 // --- CONFIGURACIÓN Y EJECUCIÓN ---
 
 // Reemplaza esta URL con el endpoint de tu API
-const API_ENDPOINT = 'http://localhost:3000/books/';
+const API_ENDPOINT = 'http://localhost:3001/books/';
 // Reemplaza este valor con el ID de usuario real
 const USER_ID = '68af7730a043f5bcd5cae2e5';
 
 // Datos de los documentos a subir. Puedes agregar más líneas.
-const bookDataString = `Más que rivales - Rachel Reid .epub https://drive.google.com/file/d/1f-d_Pr3aKU6UibYfJQFHV3AVjWpGcFkg/view?usp=drivesdk
-5 Role Model - Rachel Reid ESPAÑOL.epub https://drive.google.com/file/d/1_L1tycfg4nfKT1c6MqIre8LWLh46VKBT/view?usp=drivesdk
-6 The Long Game - Rachel Reid INGLES.epub https://drive.google.com/file/d/1GMknujvP4EnGnPTSzPFQQkV61qXISCGg/view?usp=drivesdk
-1.5 Merry Christmas Scott & Kip - Rachel Reid ESPAÑOL.epub https://drive.google.com/file/d/13VfaQLGMdP0YL1u0Yu6BKtarZMLrqIhP/view?usp=drivesdk
-1 Game Changer - Rachel Reid ESPAÑOL.epub https://drive.google.com/file/d/17D3JrmBe1PdtbvYWWM9ZaEuk3-IR_lQI/view?usp=drivesdk
-5 Role Model - Rachel Reid INGLES.epub https://drive.google.com/file/d/19guPQ-jCZcji99ORv7bzLPyXVMRZ3XgT/view?usp=drivesdk
-3 Tough Guy - Rachel Reid ESPAÑOL.epub https://drive.google.com/file/d/14J2cMf0ylMDTpGkJYTF9kAUgg7_3AmyS/view?usp=drivesdk
-3 Tough Guy - Rachel Reid INGLES.epub https://drive.google.com/file/d/1h-nlQsFn8ckbkAepOpYQE6O2-1EqWpWk/view?usp=drivesdk
-4 Common Goal - Rachel Reid ESPAÑOL.epub https://drive.google.com/file/d/1sKWHdvKklc6O1F-uTeJwexgHqq_fBMKt/view?usp=drivesdk
-2.6 Halloween with Ilya - Rachel Reid ESPAÑOL.epub https://drive.google.com/file/d/10TWSljUoQ0J6HjyabPGysNfz5O0xexkN/view?usp=drivesdk
-2 Heated Rivalry - Rachel Reid ESPAÑOL.epub https://drive.google.com/file/d/16fs74nklRfGn8CPi3ki59jr8Fk-E6Zts/view?usp=drivesdk
-2 Heated Rivalry - Rachel Reid INGLES.epub https://drive.google.com/file/d/1sbIIW8OWddb5ZY1idvZQ85q4y1SPeK-o/view?usp=drivesdk
-6 The Long Game - Rachel Reid ESPAÑOL.epub https://drive.google.com/file/d/1WZQQPwp1qHvlYytx7l5aZ_Ylo1HXqnO7/view?usp=drivesdk
-1 Game Changer - Rachel Reid INGLES.epub https://drive.google.com/file/d/1HHUggpU8KdDv6QxKUC4TOAxPTeEkrVnW/view?usp=drivesdk`;
+const bookDataString = `12 caballo de Troya.pdf	https://drive.google.com/file/d/1l9zems90AhkVRcww5JZQe-T9t3r7bbyA/view?usp=drivesdk
+Ensayo sobre la ceguera - Jose Saramago.pdf	https://drive.google.com/file/d/135KeFRvdiOVeKlaMIQhY66CD0tCdQqYX/view?usp=drivesdk
+Manual de Auriculoterapia. Moises Lipszyc . (1).pdf	https://drive.google.com/file/d/137xrNPVvNaTHeEEHc-ju4dHl_5rxLzFW/view?usp=drivesdk
+2 caballo de troya.pdf	https://drive.google.com/file/d/1TML4cjbjOZnNwY0Ejlmxgf9Ai0EASGdR/view?usp=drivesdk
+larga-vida-a-la-reina-del-halloween.pdf	https://drive.google.com/file/d/1O8jclagdTpZanrvmq4mhEP_XYpk1TbqG/view?usp=drivesdk
+2 unravel me Tahereh Maf.pdf	https://drive.google.com/file/d/1j1U50mzGistB8jXqj3zSdBZHqPwMCMQX/view?usp=drivesdk
+Frank Herbert-3 Hijos De Dune.pdf	https://drive.google.com/file/d/15p25Y9mz1b-tcjds4qHho5I6ihAohtZb/view?usp=drivesdk
+Frank Herbert-5 Herejes de Dune.pdf	https://drive.google.com/file/d/1wGz-lX9Zol5HnzmNEa4nW44cYo2xUFgj/view?usp=drivesdk
+The-Cinnamon-Bun-Book-Store-Laurie-Gilmore-TM.pdf	https://drive.google.com/file/d/1NhMTejLrqrpU4P9LoOgCEYHnEUVTjlsL/view?usp=drivesdk
+Frank Herbert-4 Dios Emperador De Dune.pdf	https://drive.google.com/file/d/1lulwy6Z2jHwWaup73weHxNsJ0uPJXrqN/view?usp=drivesdk
+Porque los hombres aman a las cabronas. Sherry Argov.epub	https://drive.google.com/file/d/1Obhm41qyabKzSzAi-UoD-_ZjsnY2wNZw/view?usp=drivesdk
+The-Pumpkin-Spice-Cafe-TM-Laurie-Gilmore.pdf	https://drive.google.com/file/d/1jGlNd2HRDAfUpUcBKnqauIkWeQZUP470/view?usp=drivesdk
+6 caballo de troya.pdf	https://drive.google.com/file/d/1k9NAX5TPFxCghEbTjgd7XLmQlrFLnRbi/view?usp=drivesdk
+Quien-Eres-Tu-y-Que-Haces-Aqui-El-Libro-de-IO-Jesus-Yanes-Z-Library-Autosaved-Autosaved.pdf	https://drive.google.com/file/d/1aWOzzjEPQCGQ8GpO66eY9-0yjySlwito/view?usp=drivesdk
+Kevin J. Anderson-7 Cazadores de Dune.pdf	https://drive.google.com/file/d/1mTtolFQgm-rQxeQEGCtBWfjH0VMXOcPj/view?usp=drivesdk
+The-Christmas-Tree-Farm-Laurie-Gilmore-T-M.pdf	https://drive.google.com/file/d/1RbtgI3o2ctPOr0CEO8pE015RJUyqiwuA/view?usp=drivesdk
+La palabra mágica. Una vida escrita  --  Isabel Allende.epub	https://drive.google.com/file/d/1dGoXDccj-ARpxxRjb5MhgaVNpqEl0Zbj/view?usp=drivesdk
+auriculoterapia-Olesson.pdf	https://drive.google.com/file/d/10Zha0LX3IWXGPQ6TDhF9BulFmypP9w8R/view?usp=drivesdk
+La venganza viste de Prada - Lauren Weisberger.pdf	https://drive.google.com/file/d/1vELw09btkaIdmPiYubsi7YthGDDR8XJV/view?usp=drivesdk
+3 caballo de troya.pdf	https://drive.google.com/file/d/1xZFqgEq6i5SJ7k4pSUoWHqkPp6e5Vexx/view?usp=drivesdk
+ver pasar los patos toño malpica.pdf	https://drive.google.com/file/d/15cPKEBQyOfphmG49ncq2A5OFc4zAXqI0/view?usp=drivesdk
+Kevin J. Anderson-8 Gusanos de arena de Dune.pdf	https://drive.google.com/file/d/1GAswn3trLHV1owWKPwgGGNWTr6Wy4wYB/view?usp=drivesdk
+Frank Herbert-6 Casa capitular Dune.pdf	https://drive.google.com/file/d/1vCAj3pyJtfoXUKg-bYL2m3YTSlB_ZJwW/view?usp=drivesdk
+10 caballo de Troya.pdf	https://drive.google.com/file/d/16CJNStyXAnIF3GH0fOhNkpsZttxehlBI/view?usp=drivesdk
+4 Caballo de Troya.pdf	https://drive.google.com/file/d/1eA8R3CLS4QXgHCnxAOokraAlYyclhQIi/view?usp=drivesdk
+La_fiesta_mágica_y_realista_de_la_resiliencia_infantil_Jorge_Barudy.pdf	https://drive.google.com/file/d/1g1U0wdYzZ1Iz-FZERZex0D_ZC-A93idu/view?usp=drivesdk
+Dune 1 - Dune - Frank Herbert.pdf	https://drive.google.com/file/d/150Ss0_wR0wcpaw1WjECo91cIGZQvWoSG/view?usp=drivesdk
+9 caballo de Troya.pdf	https://drive.google.com/file/d/1Y6gt8SjMmmDJqQuw8l0aHJ98pxJq7eM7/view?usp=drivesdk
+7Caballo De Troya.pdf	https://drive.google.com/file/d/1cQsdAFP3NSpdCiNPO7Tmzpx_fk_9XFjz/view?usp=drivesdk
+1 Shatter me - Tahereh Mafi.pdf	https://drive.google.com/file/d/1fOSfAl2smlvcryoHsM0_8FfGEg1FaWuY/view?usp=drivesdk
+Frank Herbert-2 El Mesías De Dune.pdf	https://drive.google.com/file/d/1K7pl6D5IRvAxVMMK9gB2UV66dr0sFDbS/view?usp=drivesdk
+Invisible. Eloy Moreno.epub	https://drive.google.com/file/d/1ZFFZC3hmCTQ2OfNP9O0JkoyeRc1cmL9J/view?usp=drivesdk
+11 caballo de Troya.pdf	https://drive.google.com/file/d/1xc2pVk7Y0BYMdjxwgGy4QzFbjF0gt0Ti/view?usp=drivesdk
+Señales - Laura Lynne Jackson.pdf	https://drive.google.com/file/d/1JL_ItStDC9pLsc-cDrWCYgNWulTW4svy/view?usp=drivesdk
+1 caballo de troya.pdf	https://drive.google.com/file/d/1hurZpIguqHHjp3VORcokmbKofkuTUxAm/view?usp=drivesdk
+Alguien_que_cuide_de_mi_Judith_McNaught.pdf	https://drive.google.com/file/d/1guo_11OhEfpZldYyDkq6l7MAwbdInHYA/view?usp=drivesdk
+Eres única, no hay nadie como tú - Isabella Miller.pdf	https://drive.google.com/file/d/1KCAAKsX3mBnq1ulqViaJLNUM4kjmkOdo/view?usp=drivesdk
+Siempre Seras Especial_ Inspira - Isabella Miller.pdf	https://drive.google.com/file/d/1X041EctYn4TXnB6Bcwgw8xZMkh_iwMrj/view?usp=drivesdk
+8 Caballo De Troya .pdf	https://drive.google.com/file/d/1hb58YPLH1Ji_1TvrYFYWt7Xa4Lo7c2BZ/view?usp=drivesdk
+5 caballo de troya.pdf	https://drive.google.com/file/d/18vAo8fxJ2gk-TITreDeBxTAi0t-vwEQ6/view?usp=drivesdk
+3 ignite me - Tahereh Mafi.pdf	https://drive.google.com/file/d/1q2d-Y6RQNLPBtYmqWZGUrjrWsi9RstQ9/view?usp=drivesdk
+	`;
 
 // Llamar a la función principal para iniciar el proceso de carga
 uploadBooksAndComics(API_ENDPOINT, USER_ID, bookDataString);

@@ -4,6 +4,11 @@ import * as bookController from "../controllers/book.controller.js";
 
 export const books = Router();
 
+//nuevo buscador de libros mas especifico y profesional
+
+books.get("/buscadormejorado", bookController.buscarBooks);
+
+
 // Ruta para obtener todos los libros
 books.get("/", bookController.findAll);
 books.get("/search", bookController.searchBooks);
@@ -18,4 +23,6 @@ books.post("/:idBook", bookController.update);
 
 // Ruta para eliminar un libro por su ID
 books.delete("/:idBook", bookController.remove);
+
+
 

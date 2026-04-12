@@ -5,9 +5,11 @@ import { users } from "./routes/users.js";
 import {books} from "./routes/libros.js";
 import {Rating} from "./routes/rating.js";
 import {payments} from "./routes/payment.routes.js";
+import {peticiones} from "./routes/peticiones.routes.js";
+
 
 const app = Express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 let db;
 
 app.use(Express.json());
@@ -18,6 +20,7 @@ app.use("/users", users);
 app.use("/books", books);
 app.use("/rating", Rating);
 app.use("/payment", payments);
+app.use("/peticiones", peticiones);
 
 // Conectar a la base de datos antes de iniciar el servidor
 connectToDatabase()

@@ -4,149 +4,135 @@
  * Se conserva la primera instancia encontrada y se eliminan las subsiguientes.
  */
 
-// Importación moderna de los módulos de Node.js
 import { createInterface } from 'readline';
 
-// URL base de la API de Dunder Mifflin
 const API_URL = 'https://api.dunddermifflin.com/books';
 
 /**
- * Función para obtener todos los libros de la API, manejando la paginación.
- * @returns {Promise<Array>} Un array de objetos de libros o un array vacío si falla.
+ * Obtiene todos los libros manejando la paginación correctamente.
+ * @returns {Promise<Array>}
  */
 async function fetchAllBooks() {
   const allBooks = [];
   let currentPage = 1;
-  let totalBooksFetched = 0;
-  let totalCount = 0;
-  const limit = 10; // La API devuelve 10 libros por página
+  const limit = 50; // Mayor eficiencia (cambia según lo que soporte tu API)
+  let totalPages = 1;
 
   try {
-    console.log('🔗 Obteniendo todos los libros de la base de datos (con paginación)...');
+    console.log('🔗 Obteniendo todos los libros...');
 
-    // Usamos un bucle while para seguir pidiendo páginas hasta obtener todos los libros
-    do {
-      const response = await fetch(`${API_URL}?page=${currentPage}&limit=${limit}`);
-      
-      if (!response.ok) {
-        throw new Error(`Error HTTP: ${response.status}`);
-      }
+    // Primera petición para conocer el total de páginas
+    const firstRes = await fetch(`${API_URL}?page=1&limit=${limit}`);
+    if (!firstRes.ok) throw new Error(`HTTP ${firstRes.status}`);
+    const firstData = await firstRes.json();
+    totalPages = firstData.metadata.totalPages;
+    allBooks.push(...firstData.data);
+    console.log(`Página 1/${totalPages} obtenida (${firstData.data.length} libros).`);
 
-      const result = await response.json();
-      const booksInPage = result.data;
-      totalCount = result.meta.totalCount;
+    // Resto de páginas
+    for (let page = 2; page <= totalPages; page++) {
+      const res = await fetch(`${API_URL}?page=${page}&limit=${limit}`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      allBooks.push(...data.data);
+      console.log(`Página ${page}/${totalPages} obtenida (${data.data.length} libros). Total: ${allBooks.length}`);
+    }
 
-      // Verificación para asegurarnos de que el resultado es un array
-      if (!Array.isArray(booksInPage)) {
-        console.error('❌ Error: La propiedad "data" en la respuesta de la API no es un array.');
-        return [];
-      }
-
-      // Agregamos los libros de la página actual a nuestro array principal
-      allBooks.push(...booksInPage);
-      totalBooksFetched = allBooks.length;
-      console.log(`Página ${currentPage} obtenida. Libros recuperados: ${totalBooksFetched}/${totalCount}`);
-
-      currentPage++;
-
-    } while (totalBooksFetched < totalCount);
-
-    console.log(`✅ ¡Éxito! Se obtuvieron los ${totalCount} libros en total.`);
+    console.log(`✅ Se obtuvieron ${allBooks.length} libros en total.`);
     return allBooks;
   } catch (error) {
-    console.error('❌ Error al obtener los libros. Por favor, verifica que la URL de la API es correcta y que el servidor está en funcionamiento:', error.message);
+    console.error('❌ Error al obtener libros:', error.message);
     return [];
   }
 }
 
 /**
- * Función para eliminar un libro por su ID.
- * @param {string} bookId - El ID del libro a eliminar.
- * @returns {Promise<boolean>} Devuelve true si la eliminación fue exitosa.
+ * Elimina un libro por su ID.
+ * @param {string} bookId
+ * @returns {Promise<boolean>}
  */
 async function deleteBookById(bookId) {
-  const url = `${API_URL}/${bookId}`;
   try {
-    const response = await fetch(url, {
-      method: 'DELETE',
-    });
-    if (!response.ok) {
-      throw new Error(`Error HTTP: ${response.status}`);
-    }
-    console.log(`🗑️ Libro con ID ${bookId} eliminado con éxito.`);
+    const res = await fetch(`${API_URL}/${bookId}`, { method: 'DELETE' });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    console.log(`🗑️ Eliminado: ${bookId}`);
     return true;
   } catch (error) {
-    console.error(`❌ Error al eliminar el libro con ID ${bookId}:`, error.message);
+    console.error(`❌ Error al eliminar ${bookId}:`, error.message);
     return false;
   }
 }
 
 /**
- * Función principal para encontrar y eliminar duplicados.
+ * Normaliza un string para comparación (elimina acentos, espacios extra, minúsculas)
+ */
+function normalize(str) {
+  if (!str) return '';
+  return str
+    .toLowerCase()
+    .normalize('NFD')                 // Descompone caracteres acentuados
+    .replace(/[\u0300-\u036f]/g, '') // Elimina diacríticos
+    .trim()
+    .replace(/\s+/g, ' ');           // Espacios múltiples a uno solo
+}
+
+/**
+ * Encuentra y elimina duplicados.
  */
 async function findAndRemoveDuplicates() {
   const books = await fetchAllBooks();
-  
-  if (books.length === 0) {
-      console.log('No hay libros para procesar. Finalizando script.');
-      return;
-  }
+  if (books.length === 0) return;
 
-  const seenBooks = new Map();
-  const duplicatesToDelete = [];
+  const seen = new Map();       // clave -> primer libro encontrado
+  const duplicates = [];
 
-  console.log('\n🔍 Identificando libros duplicados...');
+  console.log('\n🔍 Identificando duplicados...');
 
   for (const book of books) {
-    // Definimos una clave única basada en el título, autor y tipo de archivo
-    const key = `${book.titulo}-${book.autor}-${book.fileType}`.toLowerCase().trim();
+    // Asegurar que los campos existan
+    const titulo = normalize(book.titulo || '');
+    const autor = normalize(book.autor || '');
+    const fileType = normalize(book.fileType || '');
 
-    if (seenBooks.has(key)) {
-      duplicatesToDelete.push(book);
+    const key = `${titulo}|${autor}|${fileType}`;
+
+    if (seen.has(key)) {
+      duplicates.push(book);
     } else {
-      seenBooks.set(key, book);
+      seen.set(key, book);
     }
   }
 
-  if (duplicatesToDelete.length === 0) {
-    console.log('✨ No se encontraron libros duplicados. ¡La base de datos está limpia!');
+  if (duplicates.length === 0) {
+    console.log('✨ No se encontraron duplicados.');
     return;
   }
 
-  console.log(`\n🚨 Se encontraron ${duplicatesToDelete.length} libros duplicados.`);
-  console.log('A continuación se muestra la lista de libros que serán eliminados:');
-  duplicatesToDelete.forEach((book, index) => {
-    console.log(`  ${index + 1}. Título: "${book.titulo}", Autor: "${book.autor}", ID: ${book._id}`);
+  console.log(`\n🚨 Se encontraron ${duplicates.length} duplicados:`);
+  duplicates.forEach((d, i) => {
+    console.log(`  ${i+1}. "${d.titulo}" | ${d.autor} | ${d.fileType} (ID: ${d._id})`);
   });
-  
-  // Confirma con el usuario antes de proceder
-  const confirmDeletion = await new Promise(resolve => {
-    const rl = createInterface({
-      input: process.stdin,
-      output: process.stdout
-    });
-    rl.question('\n¿Estás seguro de que deseas eliminar estos libros duplicados? (S/N): ', answer => {
+
+  // Confirmación interactiva
+  const rl = createInterface({ input: process.stdin, output: process.stdout });
+  const confirm = await new Promise(resolve => {
+    rl.question('\n¿Eliminar estos duplicados? (S/N): ', ans => {
       rl.close();
-      resolve(answer.toLowerCase() === 's');
+      resolve(ans.toLowerCase() === 's');
     });
   });
 
-  if (!confirmDeletion) {
-    console.log('\n🚫 La eliminación ha sido cancelada.');
+  if (!confirm) {
+    console.log('🚫 Cancelado.');
     return;
   }
 
-  console.log('\n🔪 Eliminando duplicados...');
-  let deletedCount = 0;
-  for (const duplicate of duplicatesToDelete) {
-    const isDeleted = await deleteBookById(duplicate._id);
-    if (isDeleted) {
-      deletedCount++;
-    }
+  console.log('\n🔪 Eliminando...');
+  let deleted = 0;
+  for (const dup of duplicates) {
+    if (await deleteBookById(dup._id)) deleted++;
   }
-
-  console.log(`\n✅ Proceso completado. Se eliminaron ${deletedCount} de ${duplicatesToDelete.length} duplicados.`);
+  console.log(`\n✅ Eliminados ${deleted} de ${duplicates.length}.`);
 }
 
-// Iniciar el proceso
 findAndRemoveDuplicates();

@@ -36,3 +36,7 @@ export const searchBooksService = async (query, page, limit) => {
 };
 
 
+//buscador de libros mas especifico y profesional
+export const buscarBooks = async (filters) => {
+  return await bookRepository.searchBooks(filters);
+};

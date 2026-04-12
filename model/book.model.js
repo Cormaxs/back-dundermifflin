@@ -1,79 +1,53 @@
 import mongoose from 'mongoose';
 
-// Define el esquema para el libro
 const bookSchema = new mongoose.Schema({
-    // Título del libro, es un campo requerido y debe ser único
-    titulo: {
-        type: String,
-        required: true,
-        unique: true,
-        trim: true
+    titulo: { type: String, required: true, unique: true, trim: true },
+    portada: { type: String, required: false },
+    sinopsis: { type: String, required: false, trim: true },
+    autor: { type: String, required: false, trim: true },
+    categorias: { type: [String], default: [] },
+    link: { type: String, required: true },
+    
+    // --- CAMPOS PARA EL BUSCADOR MEJORADO ---
+    idioma: { 
+        type: String, 
+        default: 'español', 
+        lowercase: true, 
+        trim: true 
     },
-    // URL de la portada, requerida
-    portada: {
-        type: String,
-        required: false
+    anio: { 
+        type: Number, 
+        index: true // Índice numérico para rangos de fechas (ej. libros de 2020 a 2024)
     },
-    // Sinopsis del libro
-    sinopsis: {
-        type: String,
-        required: false,
-        trim: true,
-        minlength: 0
+    paginas: { 
+        type: Number 
     },
-    // Autor del libro, requerido
-    autor: {
-        type: String,
-        required: false,
-        trim: false
+    fileType: { 
+        type: String, 
+        uppercase: true, // Para que siempre guarde 'PDF' o 'EPUB'
+        default: 'PDF' 
     },
-    // Categorías del libro, un array de strings
-    categorias: {
-        type: [String],
-        required: false,
-        default: []
-    },
-    // Enlace de descarga, requerido
-    link: {
-        type: String,
-        required: true
-    },
-    // Tipo de archivo (ej. 'PDF', 'EPUB', 'MOBI'), requerido
-    fileType: {
-        type: String,
-        required: false,
-        trim: false
-    },
-    // Referencia al ID del usuario que creó el libro, requerido
-    creator: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'UserDundderMifflin',
-        required: false
-    },
-    // Campos para el sistema de calificación
-    averageRating: {
-        type: Number,
-        default: 0,
-        required: true
-    },
-    totalRatingsCount: {
-        type: Number,
-        default: 0,
-        required: true
-    }
+    // ---------------------------------------
+
+    creator: { type: mongoose.Schema.Types.ObjectId, ref: 'UserDundderMifflin' },
+    averageRating: { type: Number, default: 0 },
+    totalRatingsCount: { type: Number, default: 0 },
+    isPremium: { type: Boolean, default: false },
+    isExclusive: { type: Boolean, default: false }
 }, {
-    // Añade automáticamente campos para la fecha de creación y actualización
     timestamps: true
 });
 
-// Índices para optimizar búsquedas
-bookSchema.index({ titulo: 'text', autor: 'text', categorias: 'text' });
+// ÍNDICES OPTIMIZADOS
+// Agregamos 'idioma' al índice de texto para búsquedas globales
+bookSchema.index({ titulo: 'text', autor: 'text', categorias: 'text', idioma: 'text' });
+
+// Índices simples para filtros rápidos desde el sidebar
 bookSchema.index({ autor: 1 });
 bookSchema.index({ categorias: 1 });
-bookSchema.index({ creator: 1 }); // Índice para el creador
-bookSchema.index({ fileType: 1 }); // Índice para el tipo de archivo
+bookSchema.index({ anio: -1 }); // Indexamos por año descendente (lo más nuevo primero)
+bookSchema.index({ idioma: 1 });
+bookSchema.index({ fileType: 1 });
 
-// Crea el modelo 'Book' a partir del esquema
 const Book = mongoose.model('BookDundderMifflin', bookSchema);
-
 export default Book;

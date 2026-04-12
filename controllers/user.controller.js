@@ -7,7 +7,7 @@ import {
   
   export const register = async (req, res) => {
     try {
-      console.log(req.body);
+     // console.log(req.body);
       const user = await registerUser(req.body);
       res.status(201).json({success: true,
         user: user});
@@ -18,7 +18,7 @@ import {
   
   export const login = async (req, res) => {
     try {
-      console.log(req.body);
+     console.log("entro usuario",req.body);
       const user = await loginUser(req.body);
       res.status(200).json({success: true,
         user: user});

@@ -26,13 +26,13 @@ import {
     if (!user || !(await comparePassword(password, user.password))) {
       throw new Error("Invalid credentials");
     }
-  
+   
     const token = generateToken(user);
     return { user, token };
   };
   
   export const updateUser = async (id, updateData) => {
-    console.log(updateData);
+   // console.log(updateData);
     if (updateData.password != ' ' || null) {
       updateData.password = await hashPassword(updateData.password);
     }

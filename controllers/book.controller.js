@@ -102,3 +102,28 @@ export const searchBooks = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+
+
+export const buscarBooks = async (req, res) => {
+   console.log("Controlador - buscarBooks llamado con:", req.query);
+    try {
+        const { q, page, limit, idioma, anio, fileType, autor,categorias, isPremium } = req.query;
+     
+        const result = await bookService.buscarBooks({
+            q,
+            page: parseInt(page) || 1,
+            limit: parseInt(limit) || 12,
+            idioma,
+            anio: anio ? parseInt(anio) : undefined,
+            fileType,
+            autor,      // Pasamos autor
+            isPremium,  // Pasamos isPremium
+            categorias
+        });
+
+        res.status(200).json(result);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};

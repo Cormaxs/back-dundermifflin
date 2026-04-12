@@ -178,3 +178,92 @@ export const findBySlugOrId = async (slugOrId) => {
 export const findBookByIdDocument = async (bookId) => {
     return await Book.findById(bookId);
 };
+
+
+
+//buscador mejorado 
+export const searchBooks = async (filters) => {
+    const { 
+        q, 
+        page = 1, 
+        limit = 12, 
+        idioma, 
+        anio, 
+        fileType,
+        autor,
+        isPremium,
+        categorias 
+    } = filters;
+
+    const skip = (page - 1) * limit;
+    let queryCondition = {};
+
+    // 1. Búsqueda Global (Barra de búsqueda principal)
+    if (q) {
+        const regex = new RegExp(q, 'i');
+        queryCondition.$or = [
+            { titulo: { $regex: regex } },
+            { autor: { $regex: regex } },
+            { categorias: { $elemMatch: { $regex: regex } } }
+        ];
+    }
+
+    // 2. Filtro Específico de Categorías (Array)
+    if (categorias) {
+        const catList = Array.isArray(categorias) 
+            ? categorias 
+            : categorias.split(',').map(c => c.trim()).filter(c => c !== "");
+
+        if (catList.length > 0) {
+            // Buscamos libros que tengan AL MENOS UNA de las categorías seleccionadas
+            queryCondition.categorias = { 
+                $in: catList.map(cat => new RegExp(cat, 'i')) 
+            };
+        }
+    }
+
+    // 3. Filtro Específico de Autor
+    if (autor) {
+        queryCondition.autor = { $regex: new RegExp(autor, 'i') };
+    }
+
+    // 4. Filtro de Formato (fileType) - Sensible al error que mencionaste
+    if (fileType) {
+        // Usamos regex para que 'pdf' encuentre 'PDF', 'Pdf', etc.
+        queryCondition.fileType = { $regex: new RegExp(`^${fileType}$`, 'i') };
+    }
+
+    // 5. Filtro de Idioma e isPremium
+    if (idioma) queryCondition.idioma = idioma.toLowerCase();
+    
+    if (isPremium !== undefined && isPremium !== "") {
+        queryCondition.isPremium = isPremium === 'true';
+    }
+
+    if (anio) queryCondition.anio = parseInt(anio);
+
+    try {
+        // Ejecución optimizada
+        const [books, totalCount] = await Promise.all([
+            Book.find(queryCondition)
+                .select("-link") 
+                .sort({ totalRatingsCount: -1, averageRating: -1 })
+                .skip(skip)
+                .limit(limit)
+                .lean(),
+            Book.countDocuments(queryCondition)
+        ]);
+
+        return {
+            books,
+            metadata: {
+                page: parseInt(page),
+                limit: parseInt(limit),
+                totalCount,
+                totalPages: Math.ceil(totalCount / limit)
+            }
+        };
+    } catch (error) {
+        throw new Error("Error en la consulta de base de datos: " + error.message);
+    }
+};
