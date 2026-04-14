@@ -29,7 +29,9 @@ import {
   
   export const update = async (req, res) => {
     try {
+      console.log("entro usuario",req.body);
       const user = await updateUser(req.params.idUser, req.body);
+      console.log("usuario actualizado",user);
       res.status(200).json({success: true,
         user: user});
     } catch (error) {

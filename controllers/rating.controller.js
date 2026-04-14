@@ -10,7 +10,7 @@ export const rateBook = async (req, res) => {
     try {
         // Extraemos los parámetros de la URL
         const { bookId, userId, newRating } = req.params;
-        //console.log(`Calificando libro ${bookId} por usuario ${userId} con calificación ${newRating}`);
+        console.log(`Calificando libro ${bookId} por usuario ${userId} con calificación ${newRating}`);
 
         // Validamos que la calificación sea un número válido y esté en el rango 1-5
         const rating = parseInt(newRating, 10);

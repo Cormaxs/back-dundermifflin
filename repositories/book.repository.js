@@ -215,7 +215,6 @@ export const searchBooks = async (filters) => {
             : categorias.split(',').map(c => c.trim()).filter(c => c !== "");
 
         if (catList.length > 0) {
-            // Buscamos libros que tengan AL MENOS UNA de las categorías seleccionadas
             queryCondition.categorias = { 
                 $in: catList.map(cat => new RegExp(cat, 'i')) 
             };
@@ -227,9 +226,8 @@ export const searchBooks = async (filters) => {
         queryCondition.autor = { $regex: new RegExp(autor, 'i') };
     }
 
-    // 4. Filtro de Formato (fileType) - Sensible al error que mencionaste
+    // 4. Filtro de Formato (fileType)
     if (fileType) {
-        // Usamos regex para que 'pdf' encuentre 'PDF', 'Pdf', etc.
         queryCondition.fileType = { $regex: new RegExp(`^${fileType}$`, 'i') };
     }
 
@@ -242,12 +240,25 @@ export const searchBooks = async (filters) => {
 
     if (anio) queryCondition.anio = parseInt(anio);
 
+    // Determinar ordenamiento
+    let sortOrder;
+    const hasFilters = Object.keys(queryCondition).length > 0;
+
+    if (hasFilters) {
+        // Si hay filtros, ordenar por popularidad (ranking)
+        sortOrder = { totalRatingsCount: -1, averageRating: -1 };
+    } else {
+        // Sin filtros: últimos títulos agregados (asumimos campo createdAt)
+        sortOrder = { createdAt: -1 };
+        // Si no existe createdAt, puedes usar _id (que también ordena por inserción)
+        // sortOrder = { _id: -1 };
+    }
+
     try {
-        // Ejecución optimizada
         const [books, totalCount] = await Promise.all([
             Book.find(queryCondition)
                 .select("-link") 
-                .sort({ totalRatingsCount: -1, averageRating: -1 })
+                .sort(sortOrder)
                 .skip(skip)
                 .limit(limit)
                 .lean(),

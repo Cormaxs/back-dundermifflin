@@ -32,12 +32,17 @@ import {
   };
   
   export const updateUser = async (id, updateData) => {
-   // console.log(updateData);
-    if (updateData.password != ' ' || null) {
-      updateData.password = await hashPassword(updateData.password);
-    }
-    return await findUserByIdAndUpdate(id, updateData);
-  };
+  // Verificamos si la password existe y no es solo espacios en blanco
+  if (updateData.password && updateData.password.trim() !== "") {
+    updateData.password = await hashPassword(updateData.password);
+  } else {
+    // Si no viene password o está vacía, la eliminamos del objeto 
+    // para que no sobreescriba la password actual con undefined o vacío
+    delete updateData.password;
+  }
+
+  return await findUserByIdAndUpdate(id, updateData);
+};
   
   export const deleteUser = async (id) => {
     const deletedUser = await findUserByIdAndRemove(id);
