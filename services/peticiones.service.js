@@ -11,8 +11,15 @@ class peticionesService {
         return await PeticionesRepository.create(newPeticiones);
     }
 
-    async getAllPeticiones(page = 1, limit = 10, status) {
+    async getAllPeticiones(page = 1, limit = 10, status, userRole, userId) {
         const filters = status ? { status } : {};
+        
+        // Si es un usuario normal, solo mostrar sus peticiones
+        if (userRole === 'user') {
+            filters.userId = userId;
+        }
+        // Si es admin, mostrar todas (no agregar filtro de userId)
+        
         const skip = (page - 1) * limit;
         
         const [Peticioness, total] = await Promise.all([
@@ -26,8 +33,8 @@ class peticionesService {
         };
     }
 
-    async updatePeticionesStatus(PeticionesId, status, adminNote) {
-        return await PeticionesRepository.updateStatus(PeticionesId, status, adminNote);
+    async updatePeticionesStatus(PeticionesId, status, adminNote, linkBook) {
+        return await PeticionesRepository.updateStatus(PeticionesId, status, adminNote, linkBook);
     }
 }
 

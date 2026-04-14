@@ -17,10 +17,10 @@ class PeticionesRepository {
         return await Peticiones.findById(id).populate('userId', 'username');
     }
 
-    async updateStatus(id, status, adminNote) {
+    async updateStatus(id, status, adminNote, linkBook) {
         return await Peticiones.findByIdAndUpdate(
             id, 
-            { status, adminNote }, 
+            { status, adminNote, linkBook }, 
             { new: true }
         );
     }

@@ -16,6 +16,11 @@ const requestSchema = new mongoose.Schema({
         type: String,
         trim: true
     },
+    formato: {
+        type: String,
+        enum: ['pdf', 'epub', 'mobi', 'azw3', 'otro'],
+        default: 'pdf'
+    },
     status: {
         type: String,
         enum: ['pendiente', 'en_busqueda', 'subido', 'no_encontrado'],
@@ -25,6 +30,7 @@ const requestSchema = new mongoose.Schema({
         type: Boolean, // true si es usuario Erudito Pro
         default: false
     },
+    linkBook: String, // URL al libro subido (si se encuentra)
     adminNote: String // Nota opcional por si el admin quiere decir algo
 }, { timestamps: true });
 

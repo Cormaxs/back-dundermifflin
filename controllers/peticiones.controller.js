@@ -17,7 +17,9 @@ export const create = async (req, res) => {
 export const list = async (req, res) => {
     try {
         const { page, limit, status } = req.query;
-        const data = await peticionesService.getAllPeticiones(page, limit, status);
+        const userRole = req.userRole;
+        const userId = req.user.id;
+        const data = await peticionesService.getAllPeticiones(page, limit, status, userRole, userId);
         res.json(data);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -26,9 +28,11 @@ export const list = async (req, res) => {
 
 export const updateStatus = async (req, res) => {
     try {
-        const { id } = req.params;
-        const { status, adminNote } = req.body;
-        const result = await peticionesService.updatePeticionesStatus(id, status, adminNote);
+        console.log('updateStatus called with:', req.params, req.body);
+        const { idPeticion } = req.params;
+        const { status, adminNote , linkBook} = req.body;
+        const result = await peticionesService.updatePeticionesStatus(idPeticion, status, adminNote, linkBook);
+        console.log("result from service:", result);
         res.json(result);
     } catch (error) {
         res.status(500).json({ message: error.message });

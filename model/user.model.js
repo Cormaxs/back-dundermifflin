@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema({
         enum: ['admin', 'user'],
         default: 'user'
     },
-     avatar: { type: String, required: true },
+     avatar: { type: String, required: false },
     // MEJORA: Definimos los 3 planes
     planType: {
         type: String,
