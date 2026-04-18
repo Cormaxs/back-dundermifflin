@@ -257,7 +257,7 @@ export const searchBooks = async (filters) => {
     try {
         const [books, totalCount] = await Promise.all([
             Book.find(queryCondition)
-                .select("-link") 
+               
                 .sort(sortOrder)
                 .skip(skip)
                 .limit(limit)

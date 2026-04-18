@@ -20,9 +20,9 @@ export const generateToken = (user) => {
   const payload = {
     id: user._id,
     role: user.role,
-    plan: user.planType, // 'free', 'lector' o 'erudito'
-    isSubscribed: user.isSubscribed, // true o false
-    username: user.username, // Útil para mostrar "Hola, Thomas" en el header
+    plan: user.planType, 
+    isSubscribed: user.isSubscribed, 
+    username: user.username, 
   };
   return jwt.sign(payload, secretKey, { expiresIn: "24h" });
 };
