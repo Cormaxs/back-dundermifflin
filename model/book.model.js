@@ -7,6 +7,7 @@ const bookSchema = new mongoose.Schema({
     autor: { type: String, required: false, trim: true },
     categorias: { type: [String], default: [] },
     link: { type: String, required: true },
+    ouo: { type: String, required: false },
     
     // --- CAMPOS PARA EL BUSCADOR MEJORADO ---
     idioma: { 

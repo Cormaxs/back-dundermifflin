@@ -263,56 +263,19 @@ const API_ENDPOINT = 'http://localhost:3001/books/';
 const USER_ID = '68af7730a043f5bcd5cae2e5';
 
 // Datos de los documentos a subir. Puedes agregar más líneas.
-const bookDataString = `Programaci-n-con-PHP-Christian-Pelissier-Q.pdf	https://drive.google.com/file/d/12xqZMCbpbamnBe97U8VrLlxeVfJZ0aIe/view?usp=drivesdk
-Introducci-n-a-la-Programaci-n-Javier-Pino-Herrera-Patricia-Mart-nez-Moreno.pdf	https://drive.google.com/file/d/1NouutC9Op8CmQElBOMDJPH9Xk7P8QlHX/view?usp=drivesdk
-programacion-en-php-a-traves-de-ejemplos-ingenieria-tecnica-en-informatica-de-gestion-5393.pdf	https://drive.google.com/file/d/1D7KFlONz6gYJo7agt5BQw_1fg71tmXdZ/view?usp=drivesdk
-fundamentos-basicos-de-programacion-en-c-francisco-martinez-del-rio-5392.pdf	https://drive.google.com/file/d/1IztdyVeSWUdTRYgmXZ1FDfuEVqQ4yB0N/view?usp=drivesdk
-Gu-a-de-aprendizaje-de-Programacion-Joe-Llerena-Izquierdo.pdf	https://drive.google.com/file/d/1ciMoI7q9Y4Yvik_pRY6Zx0qPKNVEcm5C/view?usp=drivesdk
-Algoritmos-y-programaci-n-gu-a-para-docentes-Juan-Carlos-L-pez-Garc-a.pdf	https://drive.google.com/file/d/1Mxw4mJaX9yiQrFw-5J9CZSjTXW2Zq8ov/view?usp=drivesdk
-algoritmos-y-estructuras-de-datos-en-python-walter-bel-uader-5384.pdf	https://drive.google.com/file/d/1Y9W9tnNhIvl47tAue4ceKADIAYEDUk-O/view?usp=drivesdk
-Fundamentos-iniciales-de-l-gica-de-programaci-n-I-Jairo-Hernando-Ram-rez-Mar-n.pdf	https://drive.google.com/file/d/1Xv365Js_1Tjfy1fsL9eCydN3_ZUWEgNF/view?usp=drivesdk
-Introducci-n-a-la-Programaci-n-Aristides-Dasso-Ana-Funes.pdf	https://drive.google.com/file/d/1wY3_noI8WUOFaC3LDYgbSzVfQCgCS9Gh/view?usp=drivesdk
-El-Lenguaje-de-programaci-n-C-Universidade-da-Coru-a.pdf	https://drive.google.com/file/d/1OTZ0LirzgL2dntV9bsOXme9COnIb7v02/view?usp=drivesdk
-Programaci-n-I-Aprender-programaci-n-orientada-a-objetos-desde-cero-Dra.-Ing.-In-s-Friss-de-Kereki.pdf	https://drive.google.com/file/d/1oOE0egrYVL574a_-gVs-LyIKgo_FrhQx/view?usp=drivesdk
-Introducci-n-a-JavaScript-Javier-Egu-luz-P-rez.pdf	https://drive.google.com/file/d/18llR5Kplr5KDb7Vy_7RVmmHbDKOJNjmO/view?usp=drivesdk
-Algoritmos-resueltos-con-Python-Enrique-Edgardo-Condor-Tinoco-Marco-Antonio-De-la-cruz-Rocca.pdf	https://drive.google.com/file/d/1IBdo6Ar1WMYaRcJq7LWtVenhK3MUAhJn/view?usp=drivesdk
-01.-Lenguajes-de-programaci-n-autor-Virtuniversidad.pdf	https://drive.google.com/file/d/1PBAhar7WSvujYAYiFUroXeKCpPyZTF89/view?usp=drivesdk
-fundamentos-de-la-programacion-en-java-javier-pino-patricia-martinez-jose-antonio-vergara-5389.pdf	https://drive.google.com/file/d/10D7oQQjKiOgfPEdCfs6d_Brjjg0qXGCI/view?usp=drivesdk
-02.-Lenguaje-C-autor-Enrique-Vicente-Bonet-Esteban.pdf	https://drive.google.com/file/d/1aWJpFP0sAtGFxa-gd5bCUmPUYHc0tZ4e/view?usp=drivesdk
-programacion-orientada-a-objetos-ricardo-perez-lopez-5383.pdf	https://drive.google.com/file/d/1qSZ5VaZ1x0F5wn7oUnaWM73UlqQZQm3f/view?usp=drivesdk
-12.-JavaScript-autor-Rafael-Men-ndez-Barzanallana-Asensio.pdf	https://drive.google.com/file/d/1ISlb0x5fUKM-Iu7xoqzoAgl3XHW-M5N6/view?usp=drivesdk
-Aprenda-a-Pensar-Como-un-Programador-con-Python-Allen-Downey-Jeffrey-Elkner-Chris-Meyers.pdf	https://drive.google.com/file/d/1oZssbWXp51IbhZb-1z4NvrkdpKNneGva/view?usp=drivesdk
-algoritmos-resueltos-con-diagramas-de-flujo-y-pseudocodigo-francisco-javier-pinales-delgado-cesar-eduardo-velazquez-amador-5386.pdf	https://drive.google.com/file/d/1wfed7V49Li2w01-Lr-QNPCqg1_4mb0vn/view?usp=drivesdk
-javascript-desde-cero-elhacker-info-5391.pdf	https://drive.google.com/file/d/1heJqxBZQNtuCdFztGJ0n4A8WwhM8h9bX/view?usp=drivesdk
-Orientacion-a-Objetos-en-Javascript-Marcos-Gonz-lez-Sancho-Vicent-Moncho-Mas-Jordi-Ustrell-Garrig-s.pdf	https://drive.google.com/file/d/1d1-tO47Az0eM8oNJep_3aKZrsj7eOoRZ/view?usp=drivesdk
-programacion-orientada-a-objetos-usando-java-hector-arturo-florez-fernandez-5380.pdf	https://drive.google.com/file/d/12FrCswFItLKWE-NfM5vztdePFv-3Q6KF/view?usp=drivesdk
-Manipulando-el-DOM-con-Javascript-Vicent-Moncho-Mas-Gemma-Subirana-Grau.pdf	https://drive.google.com/file/d/1G1fIjhIW4c_hx11ezwFZOJZ_ApS5fAdk/view?usp=drivesdk
-Programaci-n-Web-del-Frontend-al-Backend-Ricardo-Javier-Cel-P-rraga-Miguel-Fabricio-Bon-Andrade-Aldo-Patricio-Mora-Olivero.pdf	https://drive.google.com/file/d/1UX-271UQrZzcIPf153fuc9gK0GrpDRjS/view?usp=drivesdk
-Fundamentos-de-la-programaci-n-Luis-Hern-ndez-Y-nez.pdf	https://drive.google.com/file/d/1SLosGYuaIGHVrtsprcrXyog-TSslD2L_/view?usp=drivesdk
-10.-Java2-autor-Jorge-S-nchez.pdf	https://drive.google.com/file/d/1ptZz9LbR7GV-QJhEVdt8Kt4Yq5zkajRR/view?usp=drivesdk
-apuntes-de-estructuras-de-datos-y-algoritmos-javier-campos-5387.pdf	https://drive.google.com/file/d/1eFbe36uCw8ZAypgiFgUgtKfnRzSJ4XUo/view?usp=drivesdk
-20.-Programador-PHP-Eugenia-Bahit.pdf	https://drive.google.com/file/d/1pjlmq9Atv6-6qb7mPCUy_1SAtF1y6OWG/view?usp=drivesdk
-08.-Fundamentos-de-programaci-n-en-Java-autor-Jorge-Martinez-Ladr-n-de-Guevara.pdf	https://drive.google.com/file/d/1w_t_KI88KXxLSNUNvrUm1-V66yF4bODp/view?usp=drivesdk
-Fundamentos-l-gicos-de-la-programaci-n-J.-I.-Garc-a-Garc-a-P.-A.-Garc-a-Sanchez-J.-M.-Urbano-Blanco.pdf	https://drive.google.com/file/d/11WZ-9FBNTcEFR5lesvuSDAb0AzQty9vs/view?usp=drivesdk
-Introduccion-a-la-Programaci-n-lvarez-Escudero-Juan-Jes-s-Andrade-Rodr-guez-Silvia-Alejandra-Becerril-Palma-Marco-Antonio.pdf	https://drive.google.com/file/d/13GoU9qWWEKW_v3XeJWmuPaeo0ZuK131Y/view?usp=drivesdk
-21.-Taller-de-PHP-autor-Tutoriales.com.pdf	https://drive.google.com/file/d/1PW3Q1DOG5x5dW8sNeKb2snASfmw6Fhuh/view?usp=drivesdk
-24.-Introducci-n-a-la-Programaci-n-con-Python-autor-Andr-s-Marzal-e-Isabel-Gracia.pdf	https://drive.google.com/file/d/1-FUcl9xR9Xn0VR6hOZT1oBX9sVADZfNh/view?usp=drivesdk
-Lenguaje-C-Eduardo-Grosclaude.pdf	https://drive.google.com/file/d/1e7-27BEHdP3Bpm3XSqGH4ZnKG8_StiS8/view?usp=drivesdk
-L-gica-de-programaci-n-Camilo-Augusto-Cardona-Pati-o.pdf	https://drive.google.com/file/d/1uu5OP2qOzpK0ABIx96f_JxKmlEDKaOjt/view?usp=drivesdk
-fundamentos-de-programacion-orientada-a-objetos-poo-andres-marcelo-salinas-copo-et-al-5382.pdf	https://drive.google.com/file/d/1sjg4JqSZM_I9q39W3o4wJUvcQKI_GKBf/view?usp=drivesdk
-Python-para-todos-Ra-l-Gonz-lez-Duque.pdf	https://drive.google.com/file/d/1vnkyyjqXKaIceqHPKVw1VWCX7ojlQgZA/view?usp=drivesdk
-Gu-a-te-rica-de-l-gica-de-programaci-n-Uneweb.pdf	https://drive.google.com/file/d/12cJRF48ikWv2sJnPm--zNV45O1-6VUSM/view?usp=drivesdk
-09.-Java-desde-Cero-autor-UNAM.pdf	https://drive.google.com/file/d/15AxwVBdO_-C1bqL5fiHYxzhvJ4XqOtSn/view?usp=drivesdk
-Aprende-Python-Sergio-Delgado-Quintero.pdf	https://drive.google.com/file/d/1JEK28wKWLdAWlsh1pobvsB2mcENhOSYT/view?usp=drivesdk
-Introducci-n-a-la-programaci-n-con-Python-3-Andr-s-Marzal-Var-Isabel-Gracia-Luengo-Pedro-Garc-a-Sevilla.pdf	https://drive.google.com/file/d/17IGRTVhnZKUrP8oOOZToQB8mwKsDZ10r/view?usp=drivesdk
-java-basico-para-aprendices-editorial-eidec-5390.pdf	https://drive.google.com/file/d/1bXLxNvF7HFRnfmCUyZpPSnLhA-mpb6p4/view?usp=drivesdk
-aprende-logica-de-programacion-jesus-ormaza-5388.pdf	https://drive.google.com/file/d/1SgMg_nv1TnlYaUCzK2yaJpxAOJxKGm3K/view?usp=drivesdk
-algoritmos-y-estructuras-de-datos-mario-storti-jorge-d-elia-rodrigo-paz-lisandro-dalcin-martin-pucheta-5385.pdf	https://drive.google.com/file/d/14q3lFva3EuYElwv98-JZuv72AGPPWEaX/view?usp=drivesdk
-05.-Curso-de-programaci-n-en-C-autor-Sergio-Talens-Oliag.pdf	https://drive.google.com/file/d/1Tm0X9CSwLsuIasuHC1cO6Lf-20YTLf7D/view?usp=drivesdk
-Caminando-junto-al-lenguaje-C-Mart-n-Goin.pdf	https://drive.google.com/file/d/1eC0SXGE5eooD75frsqELP-edEG1ueC_n/view?usp=drivesdk
-23.-Python-para-todos-autor-Charles-R.-Severance.pdf	https://drive.google.com/file/d/1ODfF3M2CixluYrqlOwPx2lrqyPd0BKus/view?usp=drivesdk
-Introducci-n-a-los-lenguajes-y-paradigmas-de-programaci-n-Corso-Cynthia-Frias-Pablo-Guzman-Analia.pdf	https://drive.google.com/file/d/1LaB2cB5dAGCrI9DR1yvlsuCOKN7hwGsk/view?usp=drivesdk
-Programaci-n-en-C-para-ingenieros-electr-nicos-Ana-Estela-Ruiz-Linares.pdf	https://drive.google.com/file/d/1ltY8kwHYRbUGMAB_xey7Gsco29tHa9Ds/view?usp=drivesdk
+const bookDataString = `Donde habitan los angeles - Claudia Celis.pdf	https://drive.google.com/file/d/1IET5YgkCdysb6JRKua4DeA5cOR3psNlD/view?usp=drivesdk
+Arregla tu desmadre (Sarah Knight) (z-lib.org).pdf	https://drive.google.com/file/d/1cp_zcdORSfFE-gRhoJDJFRrI7xjwHRC7/view?usp=drivesdk
+Indigno_de_ser_humano_Osamu_Dazai.pdf	https://drive.google.com/file/d/19CLrYu9YJ7Go4oWqV1Ta3SbZ3fTaBcBX/view?usp=drivesdk
+Las puertas de la percepción (Huxley Aldous) (Z-Library).pdf	https://drive.google.com/file/d/1l661b4HMrjSsYxPkvnM6DekiUqORVeDe/view?usp=drivesdk
+Nadie-Tiene-Que-Saberlo-Excepto-Tu.pdf	https://drive.google.com/file/d/1B7oz36IYnl14LwNxWzPHgFQVEsbGIpIE/view?usp=drivesdk
+Como-Liberar-Sus-Poderes-Psiquicos-William-W-Hewitt (1).pdf	https://drive.google.com/file/d/1x-hmFWn18NmBKHJgeFICmBtpy44j_qkA/view?usp=drivesdk
+Hipnosis para Principiantes - William W Hewitt.pdf	https://drive.google.com/file/d/1fqk0igtqu8q2lFHn2JbeFiKIrLWxiRwB/view?usp=drivesdk
+Tu_puedes_sanar_tu_vida_Spanish_Edition_by_Louise_L_Hay_Hay,_Louise.pdf	https://drive.google.com/file/d/1CE8l5GzycGh2vFsnvBKw8jS_9Sp2cvOC/view?usp=drivesdk
+La bruja de la montaña, Díaz Gloria Cecilia, Madrid 1990.pdf	https://drive.google.com/file/d/1EXdjAUrf646ZZZb6pnd3wpugaSxylnrI/view?usp=drivesdk
+Al final muere el primero_Adam Silvera.pdf	https://drive.google.com/file/d/1kp-g7NihB41Q-TjpRMmRT7FGArBIFmr3/view?usp=drivesdk
+2. Un milagro en 90 días - Laín García Calvo.pdf	https://drive.google.com/file/d/14I0vBc-ee7JNkT__TrZTuE3cldbAFPva/view?usp=drivesdk
+La voz de tu alma - Laín García Calvo.pdf	https://drive.google.com/file/d/1ITXZKylx5BiAKHX4oDyvsS_t8J68y67v/view?usp=drivesdk
+◾Réquiem para una primavera_Gloria Alegría Ramirez.pdf	https://drive.google.com/file/d/1NMCjCLpzwwu9MKAMCsL6ZpJhKN6xxKM8/view?usp=drivesdk
 	`;
 
 // Llamar a la función principal para iniciar el proceso de carga
