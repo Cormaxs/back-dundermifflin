@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import Express from "express";
 import { connectToDatabase } from "./db/db-connect.js";
 import cors from "cors";
@@ -6,7 +7,7 @@ import {books} from "./routes/libros.js";
 import {Rating} from "./routes/rating.js";
 import {payments} from "./routes/payment.routes.js";
 import {peticiones} from "./routes/peticiones.routes.js";
-
+import telegramRoutes from './routes/telegram.routes.js';
 
 const app = Express();
 const PORT = process.env.PORT || 3001;
@@ -21,6 +22,7 @@ app.use("/books", books);
 app.use("/rating", Rating);
 app.use("/payment", payments);
 app.use("/peticiones", peticiones);
+app.use("/telegram", telegramRoutes);
 
 // Conectar a la base de datos antes de iniciar el servidor
 connectToDatabase()

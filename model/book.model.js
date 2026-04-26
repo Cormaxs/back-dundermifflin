@@ -1,12 +1,12 @@
 import mongoose from 'mongoose';
 
 const bookSchema = new mongoose.Schema({
-    titulo: { type: String, required: true, unique: true, trim: true },
+    titulo: { type: String, required: false, unique: true, trim: true },
     portada: { type: String, required: false },
     sinopsis: { type: String, required: false, trim: true },
     autor: { type: String, required: false, trim: true },
     categorias: { type: [String], default: [] },
-    link: { type: String, required: true },
+    link: { type: String, required: false },
     ouo: { type: String, required: false },
     
     // --- CAMPOS PARA EL BUSCADOR MEJORADO ---
@@ -34,7 +34,16 @@ const bookSchema = new mongoose.Schema({
     averageRating: { type: Number, default: 0 },
     totalRatingsCount: { type: Number, default: 0 },
     isPremium: { type: Boolean, default: false },
-    isExclusive: { type: Boolean, default: false }
+    isExclusive: { type: Boolean, default: false },
+
+    // Nueva sección para Telegram
+    telegram: {
+        fileId: { type: String, index: true }, 
+        fileUniqueId: String,
+        mimeType: String,
+        fileSize: Number,
+        isAvailable: { type: Boolean, default: false } // Para saber si tiene respaldo en TG
+    }
 }, {
     timestamps: true
 });
