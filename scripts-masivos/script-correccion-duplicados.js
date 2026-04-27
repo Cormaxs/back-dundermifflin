@@ -1,138 +1,119 @@
-/**
- * Script para identificar y eliminar libros duplicados en la API de Dunder Mifflin.
- * Los duplicados se definen como documentos con el mismo título, autor y tipo de archivo.
- * Se conserva la primera instancia encontrada y se eliminan las subsiguientes.
- */
-
+import axios from 'axios';
 import { createInterface } from 'readline';
 
 const API_URL = 'https://api.dunddermifflin.com/books';
+const BATCH_SIZE = 10; // Número de eliminaciones simultáneas
+const ALLOWED_EXTENSIONS = new Set(['PDF', 'EPUB', 'TXT', 'MP4', 'MP3', 'CBR', 'CBZ']);
 
 /**
- * Obtiene todos los libros manejando la paginación correctamente.
- * @returns {Promise<Array>}
+ * Normaliza strings para comparaciones precisas
+ */
+const normalize = (str) => (str || '')
+  .toLowerCase()
+  .normalize('NFD')
+  .replace(/[\u0300-\u036f]/g, '')
+  .trim()
+  .replace(/\s+/g, ' ');
+
+/**
+ * Obtiene todos los libros con paginación optimizada
  */
 async function fetchAllBooks() {
   const allBooks = [];
-  let currentPage = 1;
-  const limit = 50; // Mayor eficiencia (cambia según lo que soporte tu API)
+  let page = 1;
   let totalPages = 1;
 
   try {
-    console.log('🔗 Obteniendo todos los libros...');
+    console.log('🔗 Conectando con la API de Dunder Mifflin...');
+    do {
+      const { data: res } = await axios.get(`${API_URL}?page=${page}&limit=100`);
+      allBooks.push(...res.data);
+      totalPages = res.metadata.totalPages;
+      console.log(`📦 Cargando: ${allBooks.length} libros recuperados...`);
+      page++;
+    } while (page <= totalPages);
 
-    // Primera petición para conocer el total de páginas
-    const firstRes = await fetch(`${API_URL}?page=1&limit=${limit}`);
-    if (!firstRes.ok) throw new Error(`HTTP ${firstRes.status}`);
-    const firstData = await firstRes.json();
-    totalPages = firstData.metadata.totalPages;
-    allBooks.push(...firstData.data);
-    console.log(`Página 1/${totalPages} obtenida (${firstData.data.length} libros).`);
-
-    // Resto de páginas
-    for (let page = 2; page <= totalPages; page++) {
-      const res = await fetch(`${API_URL}?page=${page}&limit=${limit}`);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-      allBooks.push(...data.data);
-      console.log(`Página ${page}/${totalPages} obtenida (${data.data.length} libros). Total: ${allBooks.length}`);
-    }
-
-    console.log(`✅ Se obtuvieron ${allBooks.length} libros en total.`);
     return allBooks;
   } catch (error) {
-    console.error('❌ Error al obtener libros:', error.message);
+    console.error('❌ Error de red:', error.message);
     return [];
   }
 }
 
 /**
- * Elimina un libro por su ID.
- * @param {string} bookId
- * @returns {Promise<boolean>}
+ * Lógica principal de limpieza
  */
-async function deleteBookById(bookId) {
-  try {
-    const res = await fetch(`${API_URL}/${bookId}`, { method: 'DELETE' });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    console.log(`🗑️ Eliminado: ${bookId}`);
-    return true;
-  } catch (error) {
-    console.error(`❌ Error al eliminar ${bookId}:`, error.message);
-    return false;
-  }
-}
-
-/**
- * Normaliza un string para comparación (elimina acentos, espacios extra, minúsculas)
- */
-function normalize(str) {
-  if (!str) return '';
-  return str
-    .toLowerCase()
-    .normalize('NFD')                 // Descompone caracteres acentuados
-    .replace(/[\u0300-\u036f]/g, '') // Elimina diacríticos
-    .trim()
-    .replace(/\s+/g, ' ');           // Espacios múltiples a uno solo
-}
-
-/**
- * Encuentra y elimina duplicados.
- */
-async function findAndRemoveDuplicates() {
+async function cleanLibrary() {
   const books = await fetchAllBooks();
   if (books.length === 0) return;
 
-  const seen = new Map();       // clave -> primer libro encontrado
-  const duplicates = [];
+  const seen = new Map();
+  const toDelete = [];
+  const reasonStats = { duplicates: 0, invalidFormat: 0 };
 
-  console.log('\n🔍 Identificando duplicados...');
+  console.log('\n🔍 Analizando biblioteca...');
 
   for (const book of books) {
-    // Asegurar que los campos existan
-    const titulo = normalize(book.titulo || '');
-    const autor = normalize(book.autor || '');
-    const fileType = normalize(book.fileType || '');
-
+    const fileType = (book.fileType || '').toUpperCase();
+    const titulo = normalize(book.titulo);
+    const autor = normalize(book.autor);
     const key = `${titulo}|${autor}|${fileType}`;
 
+    // 1. Verificar formato permitido
+    if (!ALLOWED_EXTENSIONS.has(fileType)) {
+      toDelete.push({ ...book, reason: `Formato no permitido (${fileType})` });
+      reasonStats.invalidFormat++;
+      continue;
+    }
+
+    // 2. Verificar duplicados
     if (seen.has(key)) {
-      duplicates.push(book);
+      toDelete.push({ ...book, reason: 'Duplicado' });
+      reasonStats.duplicates++;
     } else {
-      seen.set(key, book);
+      seen.set(key, book._id);
     }
   }
 
-  if (duplicates.length === 0) {
-    console.log('✨ No se encontraron duplicados.');
+  if (toDelete.length === 0) {
+    console.log('✨ ¡Tu biblioteca está impecable! No hay nada que borrar.');
     return;
   }
 
-  console.log(`\n🚨 Se encontraron ${duplicates.length} duplicados:`);
-  duplicates.forEach((d, i) => {
-    console.log(`  ${i+1}. "${d.titulo}" | ${d.autor} | ${d.fileType} (ID: ${d._id})`);
-  });
+  // Resumen del caos
+  console.table(toDelete.map(b => ({
+    Titulo: b.titulo,
+    Tipo: b.fileType,
+    Motivo: b.reason
+  })));
 
-  // Confirmación interactiva
+  console.log(`\n📊 Resumen: ${reasonStats.duplicates} duplicados y ${reasonStats.invalidFormat} formatos inválidos.`);
+  
   const rl = createInterface({ input: process.stdin, output: process.stdout });
-  const confirm = await new Promise(resolve => {
-    rl.question('\n¿Eliminar estos duplicados? (S/N): ', ans => {
+  const confirm = await new Promise(res => {
+    rl.question(`⚠️  ¿Proceder a eliminar ${toDelete.length} elementos? (S/N): `, a => {
       rl.close();
-      resolve(ans.toLowerCase() === 's');
+      res(a.toLowerCase() === 's');
     });
   });
 
-  if (!confirm) {
-    console.log('🚫 Cancelado.');
-    return;
+  if (!confirm) return console.log('🚫 Operación cancelada.');
+
+  // Eliminación por lotes para máxima velocidad
+  console.log(`\n🔪 Iniciando purga en lotes de ${BATCH_SIZE}...`);
+  for (let i = 0; i < toDelete.length; i += BATCH_SIZE) {
+    const batch = toDelete.slice(i, i + BATCH_SIZE);
+    await Promise.all(batch.map(async (item) => {
+      try {
+        await axios.delete(`${API_URL}/${item._id}`);
+        console.log(`🗑️  Eliminado [${item.reason}]: ${item.titulo}`);
+      } catch (e) {
+        console.error(`❌ Error con ${item._id}: ${e.message}`);
+      }
+    }));
   }
 
-  console.log('\n🔪 Eliminando...');
-  let deleted = 0;
-  for (const dup of duplicates) {
-    if (await deleteBookById(dup._id)) deleted++;
-  }
-  console.log(`\n✅ Eliminados ${deleted} de ${duplicates.length}.`);
+  console.log('\n✅ Limpieza masiva completada.');
 }
 
-findAndRemoveDuplicates();
+cleanLibrary();

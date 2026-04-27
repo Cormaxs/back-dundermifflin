@@ -53,7 +53,7 @@ export const processAndUpload = async (file, bookData) => {
      \n<b>📂 Categorías:</b> ${bookData.categorias}
     \n<b>📖 Sinopsis:</b> ${bookData.sinopsis}
    `;
-    
+    //console.log('Procesando y subiendo archivo a Telegram con caption:', file.originalname, bookData.titulo);
     // Llamamos al repository
-    return await telegramRepository.uploadDocument(file.buffer, file.originalname, caption);
+    return await telegramRepository.uploadDocument(file.buffer, bookData.titulo, caption);
 };
