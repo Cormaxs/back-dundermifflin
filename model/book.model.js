@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 const bookSchema = new mongoose.Schema({
     titulo: { type: String, required: false, unique: true, trim: true },
     portada: { type: String, required: false },
+    portadaCloudinary: { type: String, required: false },
     sinopsis: { type: String, required: false, trim: true },
     autor: { type: String, required: false, trim: true },
     categorias: { type: [String], default: [] },
@@ -27,6 +28,9 @@ const bookSchema = new mongoose.Schema({
         type: String, 
         uppercase: true, // Para que siempre guarde 'PDF' o 'EPUB'
         default: 'PDF' 
+    },
+    fileSize: { 
+        type: Number, required: false, default: 0 // Tamaño en bytes, para futuras optimizaciones de búsqueda por tamaño
     },
     // ---------------------------------------
 

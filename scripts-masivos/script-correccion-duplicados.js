@@ -3,7 +3,11 @@ import { createInterface } from 'readline';
 
 const API_URL = 'https://api.dunddermifflin.com/books';
 const BATCH_SIZE = 10; // Número de eliminaciones simultáneas
-const ALLOWED_EXTENSIONS = new Set(['PDF', 'EPUB', 'TXT', 'MP4', 'MP3', 'CBR', 'CBZ']);
+const ALLOWED_EXTENSIONS = new Set(['PDF', 'EPUB', 'TXT', 'MP4', 
+  'MP3', 'CBR', 'CBZ', 'DJVU', 'FB2', 'FBZ', 'HTML', 'HTM', 
+  'MOBI', 'AZW3', 'DOCX', 'XLSX', 'PPTX' , 'ODT', 'ODS', 
+  'ODP', 'RTF', 'CSV', 'JSON', 'XML', 'YAML', 'MD', 'TXT', 
+  'ZIP', 'RAR', '7Z', 'MKV']);
 
 /**
  * Normaliza strings para comparaciones precisas

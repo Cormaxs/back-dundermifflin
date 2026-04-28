@@ -1,0 +1,5 @@
+# Google Auth
+scripts-masivos/drive/token.json
+scripts-masivos/drive/credentials.json
+node_modules/
+.env
