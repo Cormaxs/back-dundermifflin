@@ -9,9 +9,9 @@ import fs from 'fs';
 
 // --- CONFIGURACIÓN ---
 cloudinary.config({
-    cloud_name: '#',
-    api_key: '#',
-    api_secret: '#'
+    cloud_name: 'dfygwtkcy',
+    api_key: '516954329171653',
+    api_secret: 'YaJlChNv5Wf8Y1c7H3vgqO0sBF0'
 });
 // --- CONFIGURACIÓN DRIVE ---
 const credentials = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'credentials.json'))).web;
