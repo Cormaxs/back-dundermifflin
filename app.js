@@ -11,7 +11,7 @@ import peliskal from "./routes/peliskal.movie.routes.js";
 import telegramRoutes from './routes/telegram.routes.js';
 
 const app = Express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 let db;
 
 app.use(Express.json());
